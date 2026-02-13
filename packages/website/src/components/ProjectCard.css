@@ -7,12 +7,15 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transform-origin: center;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background 0.2s;
 }
 
 .project-card:hover {
   border-color: var(--card-accent, var(--color-accent));
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  background: var(--color-bg);
 }
 
 [data-theme="dark"] .project-card:hover {

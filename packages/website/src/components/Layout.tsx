@@ -1,25 +1,52 @@
+import { useState, useEffect, useRef } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import './Layout.css';
 
 export function Layout({ children }: { children?: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuOpen && navRef.current && !navRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [menuOpen]);
 
   return (
     <div className="layout">
-      <nav className="nav">
+      <nav className="nav" ref={navRef}>
         <Link to="/" className="nav-brand">
           Home
         </Link>
-        <div className="nav-links">
-          <Link to="/about">About</Link>
-          <Link to="/cv">CV</Link>
-          <Link to="/blog">Blog</Link>
-          <Link to="/projects">Projects</Link>
+        <button
+          type="button"
+          className="nav-menu-toggle"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-expanded={menuOpen}
+          aria-label="Toggle menu"
+        >
+          <span className="nav-menu-icon" />
+          <span className="nav-menu-icon" />
+          <span className="nav-menu-icon" />
+        </button>
+        <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
+          <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+          <Link to="/cv" onClick={() => setMenuOpen(false)}>CV</Link>
+          <Link to="/blog" onClick={() => setMenuOpen(false)}>Blog</Link>
+          <Link to="/projects" onClick={() => setMenuOpen(false)}>Projects</Link>
           <button
             type="button"
             className="theme-toggle"
-            onClick={toggleTheme}
+            onClick={() => {
+              toggleTheme();
+              setMenuOpen(false);
+            }}
             title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
