@@ -5,8 +5,8 @@
       (function() {
         const stored = localStorage.getItem('theme-preference');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
+        const resolved = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', resolved);
       })();
     </script>
     <meta charset="UTF-8" />

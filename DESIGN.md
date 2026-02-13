@@ -66,11 +66,13 @@ Document de référence pour préparer les projets à intégrer au site personne
 
 ---
 
-## 3. Thème clair / sombre
+## 3. Thème clair / sombre / système
 
-- **Attribut :** `data-theme="light"` ou `data-theme="dark"` sur `<html>`
+- **Options :** `system` (défaut), `light`, `dark`
+- **System :** suit la préférence système (`prefers-color-scheme`), mise à jour en temps réel si l’utilisateur change son thème OS
+- **Attribut :** `data-theme="light"` ou `data-theme="dark"` sur `<html>` (résolu à partir de la préférence)
 - **Persistance :** `localStorage` (clé `theme-preference`)
-- Interrupteur dans la barre de navigation
+- **Interrupteur :** menu déroulant (dropdown) avec options System, Light, Dark dans la barre de navigation
 - **Toujours utiliser les variables** `var(--color-*)` pour les couleurs, jamais de valeurs en dur
 
 ---
@@ -80,7 +82,7 @@ Document de référence pour préparer les projets à intégrer au site personne
 - **Police :** `system-ui, -apple-system, sans-serif`
 - **Titres :** `font-weight: 600` ou `700`
 - **Texte secondaire :** `font-size: 0.85rem` à `0.95rem`, `color: var(--color-text-secondary)`
-- **Liens :** `color: var(--color-accent)`, soulignement au survol
+- **Liens :** `color: var(--color-accent)`, soulignement au survol (sauf liens de navigation)
 
 ---
 
@@ -118,13 +120,14 @@ Document de référence pour préparer les projets à intégrer au site personne
 
 - Couleur : `var(--color-accent)`
 - Hover : `text-decoration: underline`
+- **Liens de navigation (About, CV, etc.) :** pas de soulignement, effet « pop up » au survol (`transform: scale(1.05) translateY(-2px)`)
 - Dans les cartes : pas de soulignement par défaut, au survol de la carte
 
 ---
 
 ## 7. Interactions (hover)
 
-- **Liens / boutons nav :** `transform: scale(1.03)`, `background: var(--color-border)`, `color: var(--color-accent)`
+- **Liens / boutons nav :** `transform: scale(1.05) translateY(-2px)`, `background: var(--color-border)`, `color: var(--color-accent)`, pas de soulignement
 - **Cartes projet :** `transform: scale(1.02)`, `border-color: var(--color-accent)`, `box-shadow`
 - **Transitions :** 0.2s à 0.3s pour les changements d'état
 
@@ -144,7 +147,7 @@ Document de référence pour préparer les projets à intégrer au site personne
 
 - Barre supérieure : Home, About, CV, Blog, Projects
 - Pas de liens dupliqués sur la page d'accueil
-- Interrupteur de thème dans la nav
+- Menu déroulant de thème (System / Light / Dark) dans la nav
 
 ### Page d'accueil
 
