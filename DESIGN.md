@@ -1,6 +1,18 @@
 # Charte graphique — Personal Website
 
-## 1. Palette de couleurs
+Document de référence pour préparer les projets à intégrer au site personnel. À importer ou consulter avant de développer un nouveau projet.
+
+---
+
+## 1. Principe général
+
+**Règle d'or :** Blanc, gris et noir pour la structure ; les couleurs uniquement pour les boutons, liens, surlignages et éléments décoratifs.
+
+---
+
+## 2. Palette de couleurs
+
+### Valeurs par thème
 
 | Rôle | Thème clair | Thème sombre |
 |-----|-------------|--------------|
@@ -11,38 +23,182 @@
 | Texte secondaire | `#555` | `#999` |
 | Accent | `#2563eb` | `#3b82f6` |
 
-**Règle :** Blanc, gris et noir pour la structure ; les couleurs uniquement pour les boutons, liens, surlignages et éléments décoratifs.
+### Variables CSS à définir
 
-## 2. Thème clair / sombre
+```css
+/* Thème clair */
+:root,
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-border: #e0e0e0;
+  --color-text: #111;
+  --color-text-secondary: #555;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --nav-brand-bg: #e8e8e8;
+}
 
-- Variables CSS (custom properties) pour toutes les couleurs dépendantes du thème
+/* Thème sombre */
+[data-theme="dark"] {
+  --color-bg: #0f0f0f;
+  --color-surface: #1a1a1a;
+  --color-border: #2a2a2a;
+  --color-text: #f5f5f5;
+  --color-text-secondary: #999;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+  --nav-brand-bg: #252525;
+}
+```
+
+### Rôles des couleurs
+
+| Variable | Rôle | Usage |
+|----------|------|-------|
+| `--color-bg` | Fond principal | Body, pages |
+| `--color-surface` | Surfaces (cartes, nav) | Cards, nav bar |
+| `--color-border` | Bordures, séparateurs | Borders, dividers |
+| `--color-text` | Texte principal | Titres, paragraphes |
+| `--color-text-secondary` | Texte secondaire | Labels, descriptions |
+| `--color-accent` | Accent (liens, boutons) | Links, CTA, highlights |
+| `--color-accent-hover` | Accent au survol | Hover states |
+
+---
+
+## 3. Thème clair / sombre
+
+- **Attribut :** `data-theme="light"` ou `data-theme="dark"` sur `<html>`
+- **Persistance :** `localStorage` (clé `theme-preference`)
 - Interrupteur dans la barre de navigation
-- Préférence persistée dans `localStorage`
-- Attribut sur `html` : `data-theme="light"` ou `data-theme="dark"`
+- **Toujours utiliser les variables** `var(--color-*)` pour les couleurs, jamais de valeurs en dur
 
-## 3. Page d'accueil
+---
 
-- Section « Featured Projects »
-- Cartes de projets en grille responsive (2 colonnes desktop, 1 mobile)
+## 4. Typographie
+
+- **Police :** `system-ui, -apple-system, sans-serif`
+- **Titres :** `font-weight: 600` ou `700`
+- **Texte secondaire :** `font-size: 0.85rem` à `0.95rem`, `color: var(--color-text-secondary)`
+- **Liens :** `color: var(--color-accent)`, soulignement au survol
+
+---
+
+## 5. Espacements et bordures
+
+- **Border-radius :** 6px (petits éléments), 8px (boutons, inputs), 12px (cartes)
+- **Padding nav :** 1rem 2rem (desktop), 1rem (mobile)
+- **Padding main :** 2rem (desktop), 1rem (mobile)
+- **Gap entre éléments :** 0.5rem à 1.5rem selon le contexte
+
+---
+
+## 6. Composants réutilisables
+
+### Boutons
+
+- Fond : `var(--color-accent)` pour les CTA
+- Texte : blanc ou `var(--color-text)` selon contraste
+- Border-radius : 8px
+- Transition : `0.2s ease` sur background, transform
+- Hover : `filter: brightness(1.1)` ou `transform: scale(1.02)`
+
+### Cartes (project cards)
+
+- Background : `var(--color-surface)`
+- Border : `1px solid var(--color-border)`
+- Border-radius : 12px
+- Hover : bordure accent, léger scale (1.02), ombre
+- Tag catégorie : `font-size: 0.75rem`, `text-transform: uppercase`, `letter-spacing: 0.05em`
+- Section « Featured Projects » : grille responsive (2 colonnes desktop, 1 mobile)
 - Chaque carte : aperçu visuel, tag catégorie, titre, description courte, lien « View project »
-- Cartes : fond clair, coins arrondis, bordure discrète (accent au survol)
 - Fond de page sombre ; les cartes ressortent en surfaces claires
 
-## 4. Navigation
+### Liens
+
+- Couleur : `var(--color-accent)`
+- Hover : `text-decoration: underline`
+- Dans les cartes : pas de soulignement par défaut, au survol de la carte
+
+---
+
+## 7. Interactions (hover)
+
+- **Liens / boutons nav :** `transform: scale(1.03)`, `background: var(--color-border)`, `color: var(--color-accent)`
+- **Cartes projet :** `transform: scale(1.02)`, `border-color: var(--color-accent)`, `box-shadow`
+- **Transitions :** 0.2s à 0.3s pour les changements d'état
+
+---
+
+## 8. Responsive
+
+- **Breakpoint mobile :** `768px` (max-width)
+- **Grille projets :** 2 colonnes desktop, 1 colonne mobile
+- **Menu mobile :** hamburger, dropdown avec les liens
+
+---
+
+## 9. Structure du site
+
+### Navigation
 
 - Barre supérieure : Home, About, CV, Blog, Projects
 - Pas de liens dupliqués sur la page d'accueil
 - Interrupteur de thème dans la nav
 
-## 5. CV
+### Page d'accueil
+
+- Section « Featured Projects »
+- Cartes de projets en grille responsive
+
+### CV
 
 - PDF français : `/cv/CV-2025.pdf`
 - Page CV : lien de téléchargement ou ouverture dans un nouvel onglet
 
-## 6. Thème Onitama
+---
 
-- Remplacer le cyan (`#4fc3f7`) par l'accent bleu du site
+## 10. Projets embarqués (ex. Onitama)
+
+Pour un projet intégré au site (jeu, outil, etc.) :
+
+### Variables dédiées (optionnel)
+
+```css
+/* Thème clair */
+[data-theme="light"] {
+  --project-cell-bg: #f0f0f0;
+  --project-surface: #e8e8e8;
+  --project-accent: #2563eb;
+  --project-accent-rgb: 37, 99, 235;
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+  --project-cell-bg: #2a2a2a;
+  --project-surface: #1f1f1f;
+  --project-accent: #3b82f6;
+  --project-accent-rgb: 59, 130, 246;
+}
+```
+
+### Règles
+
+- Remplacer les couleurs vives (cyan `#4fc3f7`, vert vif, etc.) par l'accent bleu du site
 - **Thème clair :** cellules `#f0f0f0`, bordures `#ddd`, accent `#2563eb`
 - **Thème sombre :** cellules `#2a2a2a`, bordures `#444`, accent `#3b82f6`
 - Mouvements valides / sélection : couleur accent
-- Boutons : fond accent, texte sombre
+- Boutons : fond accent, texte blanc, border-radius 8px
+- Overlay fin de partie : `rgba(0, 0, 0, 0.5)` avec `z-index` élevé pour couvrir tout le contenu
+
+---
+
+## 11. Checklist avant intégration
+
+- [ ] Toutes les couleurs passent par des variables CSS
+- [ ] Support du thème clair et sombre
+- [ ] Pas de couleur en dur (sauf noir/blanc pour overlays)
+- [ ] Bordures et radius cohérents avec la charte
+- [ ] Transitions sur les états hover
+- [ ] Test sur mobile (768px)
+- [ ] Images/assets dans `public/` ou chemin relatif correct
