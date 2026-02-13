@@ -37,7 +37,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
           <span className="nav-menu-icon" />
           <span className="nav-menu-icon" />
         </button>
-        <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
+        <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''} ${themeDropdownOpen ? 'nav-links-theme-open' : ''}`}>
           <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
           <Link to="/cv" onClick={() => setMenuOpen(false)}>CV</Link>
           <Link to="/blog" onClick={() => setMenuOpen(false)}>Blog</Link>
