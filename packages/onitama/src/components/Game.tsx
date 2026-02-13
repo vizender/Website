@@ -34,13 +34,16 @@ export function Game() {
         selectedCard={selectedCard}
         onSelectCard={selectCard}
       >
-        <Board
-          board={board}
-          currentPlayer={currentPlayer}
-          selectedPiece={selectedPiece}
-          validMoves={validMoves}
-          onCellClick={cellClick}
-        />
+        <div className={winner ? 'board-overlay' : ''}>
+          <Board
+            board={board}
+            currentPlayer={currentPlayer}
+            winner={winner}
+            selectedPiece={selectedPiece}
+            validMoves={validMoves}
+            onCellClick={cellClick}
+          />
+        </div>
       </CardHand>
     </div>
   );

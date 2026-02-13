@@ -6,6 +6,7 @@ import './Board.css';
 interface BoardProps {
   board: BoardType;
   currentPlayer: 'blue' | 'red';
+  winner: 'blue' | 'red' | null;
   selectedPiece: Position | null;
   validMoves: Position[];
   onCellClick: (pos: Position) => void;
@@ -20,11 +21,12 @@ function isTemple(pos: Position): 'up' | 'down' | null {
 export function Board({
   board,
   currentPlayer,
+  winner,
   selectedPiece,
   validMoves,
   onCellClick,
 }: BoardProps) {
-  const isFlipped = currentPlayer === 'blue';
+  const isFlipped = winner ? winner === 'blue' : currentPlayer === 'blue';
 
   return (
     <div className={`board-container ${isFlipped ? 'board-flipped' : ''}`}>
