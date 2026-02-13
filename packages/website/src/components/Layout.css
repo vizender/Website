@@ -1,0 +1,29 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #252538;
+  border-bottom: 1px solid #333;
+}
+
+.nav-brand {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+}

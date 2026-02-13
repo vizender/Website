@@ -1,0 +1,10 @@
+{
+  "name": "personal-website",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "npm run dev -w website",
+    "build": "npm run build -w website",
+    "preview": "npm run preview -w website"
+  }
+}

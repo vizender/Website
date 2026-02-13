@@ -1,0 +1,39 @@
+.game-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.status-message {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.status-winner {
+  color: #4fc3f7;
+  font-size: 1.5rem;
+}
+
+.status-hint {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.btn-reset {
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1a1a2e;
+  background: #4fc3f7;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-reset:hover {
+  background: #29b6f6;
+  transform: scale(1.02);
+}

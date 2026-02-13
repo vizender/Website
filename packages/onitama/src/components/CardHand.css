@@ -1,0 +1,152 @@
+.card-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.card-zone-waiting {
+  opacity: 0.9;
+  padding: 1rem;
+  width: 100%;
+  max-width: min(420px, 90vw);
+  margin: 0 auto;
+}
+
+/* Flip horizontal + vertical (180°) pour la perspective du joueur en attente */
+.cards-flipped-vertical .card {
+  transform: scale(-1);
+}
+
+/* Délai avant de revenir à l'état normal : évite l'effet vertigineux quand on passe d'une carte à l'autre */
+.cards-flipped-vertical .card-wrapper .card {
+  transition-delay: 0.12s;
+}
+
+/* Hover sur le wrapper (zone fixe) pour éviter le bug - zoom tout en gardant le flip */
+.cards-flipped-vertical .card-wrapper:hover .card {
+  transform: scale(-1.03);
+  box-shadow: 0 4px 16px rgba(79, 195, 247, 0.3);
+  transition-delay: 0s;
+}
+
+.card-zone-current {
+  border: 2px solid rgba(79, 195, 247, 0.4);
+  border-radius: 12px;
+  padding: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.card-zone-neutral {
+  flex: 0 0 auto;
+}
+
+.card-label {
+  font-size: 0.85rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.card-zone-current .card-label {
+  color: #4fc3f7;
+}
+
+.cards-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.cards-horizontal {
+  width: 100%;
+  min-width: 0;
+}
+
+.cards-horizontal .card-wrapper {
+  flex: 1;
+  min-width: 80px;
+  max-width: 200px;
+  position: relative;
+  display: flex;
+  overflow: visible;
+}
+
+.cards-horizontal .card-wrapper .card {
+  flex: 1;
+}
+
+.cards-horizontal .card {
+  flex: 1;
+  min-width: 80px;
+  max-width: 200px;
+}
+
+.card-zone-neutral .cards-horizontal .card {
+  flex: 0 1 auto;
+  min-width: 100px;
+  max-width: 160px;
+}
+
+.card {
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #2a2a3e;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cards-flipped-vertical .card-wrapper .card {
+  flex: 1;
+}
+
+.card-horizontal {
+  /* Horizontal format: width > height via aspect-ratio */
+}
+
+/* Hover sur le wrapper (zone fixe) pour éviter le bug quand la souris bouge dans la carte */
+.card-wrapper:hover .card:not(.card-disabled):not(:disabled) {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(79, 195, 247, 0.4);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-selected {
+  outline: 3px solid #4fc3f7;
+  outline-offset: 2px;
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
+}
+
+.card-disabled,
+.card-display {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.card-display {
+  cursor: default;
+}
+
+.cards-below-board {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: min(500px, 92vw);
+}
