@@ -3,25 +3,19 @@ import './CV.css';
 export function CV() {
   return (
     <div className="cv-page">
-      <h1>CV</h1>
-      <p className="cv-intro">
-        Téléchargez mon CV au format PDF (français).
-      </p>
-      <a
-        href="/cv/CV-2025.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="cv-download-link"
-      >
-        Ouvrir le CV (PDF)
-      </a>
-      <span className="cv-separator"> ou </span>
+      <div className="cv-viewer">
+        <iframe
+          src="/cv/CV-2025.pdf#toolbar=0&navpanes=0&scrollbar=1"
+          title="CV Victor Le Gall"
+          className="cv-iframe"
+        />
+      </div>
       <a
         href="/cv/CV-2025.pdf"
         download="CV-Victor-Le-Gall-2025.pdf"
         className="cv-download-link"
       >
-        Télécharger
+        Télécharger le PDF
       </a>
     </div>
   );
