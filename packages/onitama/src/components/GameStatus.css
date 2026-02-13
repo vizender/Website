@@ -12,21 +12,21 @@
 }
 
 .status-winner {
-  color: #4fc3f7;
+  color: var(--onitama-accent, #3b82f6);
   font-size: 1.5rem;
 }
 
 .status-hint {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--onitama-text-secondary, #999);
 }
 
 .btn-reset {
   padding: 0.6rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #1a1a2e;
-  background: #4fc3f7;
+  color: var(--onitama-btn-text, #ffffff);
+  background: var(--onitama-accent, #3b82f6);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -34,6 +34,6 @@
 }
 
 .btn-reset:hover {
-  background: #29b6f6;
+  filter: brightness(1.1);
   transform: scale(1.02);
 }

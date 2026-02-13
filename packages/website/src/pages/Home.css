@@ -1,21 +1,28 @@
 .home {
-  max-width: 600px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.home h1 {
-  margin-top: 0;
-}
-
-.home-links {
-  list-style: none;
+.featured-projects {
   padding: 0;
-  margin: 1.5rem 0 0;
 }
 
-.home-links li {
-  margin-bottom: 0.75rem;
+.featured-projects-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+  color: var(--color-text);
+  text-align: center;
 }
 
-.home-links a {
-  font-size: 1.1rem;
+.featured-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .featured-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

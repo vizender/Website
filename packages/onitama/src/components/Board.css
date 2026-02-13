@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: #2d2d44;
+  background: var(--onitama-cell-bg, #2a2a2a);
 }
 
 .cell-bg {
@@ -47,7 +47,7 @@
   position: absolute;
   inset: 15%;
   border-radius: 50%;
-  background: rgba(100, 200, 100, 0.4);
+  background: rgba(var(--onitama-accent-rgb, 59, 130, 246), 0.4);
   pointer-events: none;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .cell-selected {
-  outline: 3px solid #4fc3f7;
+  outline: 3px solid var(--onitama-accent, #3b82f6);
   outline-offset: -3px;
   z-index: 1;
 }
@@ -90,7 +90,7 @@
 }
 
 .piece[data-selected="true"] {
-  filter: drop-shadow(0 0 8px #4fc3f7);
+  filter: drop-shadow(0 0 8px var(--onitama-accent, #3b82f6));
 }
 
 .piece img {
