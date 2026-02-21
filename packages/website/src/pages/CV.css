@@ -1,5 +1,5 @@
 .cv-page {
-  --cv-header-height: 480px; /* hauteur bannière */
+  --cv-header-height: clamp(240px, 32vh, 400px);
   max-width: none;
   margin-left: -2rem;
   margin-right: -2rem;
@@ -30,9 +30,9 @@
 /* Ligne principale : compétences à gauche, contenu à droite (côte à côte) */
 .cv-main-row {
   display: flex;
-  gap: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
   align-items: flex-start;
-  margin-top: 2rem;
+  margin-top: clamp(1rem, 3vh, 2rem);
 }
 
 .cv-sticky-sidebar {
@@ -60,11 +60,11 @@
   width: calc(100% + 4rem);
 }
 
-/* Bannière : hauteur fixe */
+/* Bannière : hauteur responsive (32vh max 400px, min 240px) */
 .cv-banner {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: var(--cv-header-height);
   overflow: hidden;
   border-radius: 0 0 12px 12px;
 }
@@ -235,7 +235,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vh, 2rem);
   min-width: 0;
 }
 
@@ -396,9 +396,10 @@
   text-decoration: underline;
 }
 
-/* Responsive mobile */
+/* Responsive mobile (portrait / phone) */
 @media (max-width: 768px) {
   .cv-page {
+    --cv-header-height: clamp(200px, 38vh, 320px);
     margin-left: -1rem;
     margin-right: -1rem;
     width: calc(100% + 2rem);
@@ -406,17 +407,9 @@
     padding-right: 1rem;
   }
 
-  .cv-page {
-    --cv-header-height: 360px;
-  }
-
   .cv-pdf-buttons {
     bottom: 1rem;
     left: 1rem;
-  }
-
-  .cv-banner {
-    height: 360px;
   }
 
   .cv-banner-name {
@@ -445,23 +438,44 @@
     margin-left: 0;
   }
 
+  /* Compétences sticky sous la bannière, horizontales, max 2 lignes */
   .cv-main-row {
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
+    gap: 1rem;
   }
 
   .cv-sticky-sidebar {
     flex: 0 0 auto;
-    position: static;
+    position: sticky;
+    top: var(--cv-header-height);
+    order: -1;
+    z-index: 5;
+    background: var(--color-bg);
+  }
+
+  .cv-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .cv-sidebar-title {
+    margin: 0;
   }
 
   .cv-skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    max-height: 3.5rem;
+    overflow: hidden;
+    padding-left: 0.25rem; /* évite que le fond des compétences à gauche soit coupé */
   }
 
   .cv-skill {
+    margin: 0;
     padding: 0.25rem 0.5rem;
     background: var(--color-border);
     border-radius: 6px;

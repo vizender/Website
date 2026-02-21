@@ -13,6 +13,15 @@ export function CV() {
 
   const allSkills = getAllSkills();
 
+  /* Sur mobile : prioriser les compétences highlightées (visibles en premier) */
+  const sortedSkills = [...allSkills].sort((a, b) => {
+    const aHighlighted = activeSkills.has(a) || hoveredCardSkills.has(a);
+    const bHighlighted = activeSkills.has(b) || hoveredCardSkills.has(b);
+    if (aHighlighted && !bHighlighted) return -1;
+    if (!aHighlighted && bHighlighted) return 1;
+    return 0;
+  });
+
   useEffect(() => {
     const content = contentRef.current;
     if (!content) return;
@@ -75,7 +84,7 @@ export function CV() {
           <aside className="cv-sidebar">
             <h3 className="cv-sidebar-title">Compétences</h3>
             <ul className="cv-skills-list">
-              {allSkills.map((skill) => (
+              {sortedSkills.map((skill) => (
                 <li
                   key={skill}
                   className={`cv-skill ${activeSkills.has(skill) ? 'cv-skill-active' : ''} ${hoveredCardSkills.has(skill) ? 'cv-skill-hover' : ''}`}
