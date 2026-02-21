@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Theme variables - set by ThemeContext via data-theme attribute */
 :root,
 [data-theme="light"] {
   --color-bg: #ffffff;
@@ -11,6 +10,13 @@
   --color-accent: #2563eb;
   --color-accent-hover: #1d4ed8;
   --nav-brand-bg: #e8e8e8;
+
+  --onitama-cell-bg: #f0f0f0;
+  --onitama-card-bg: #e8e8e8;
+  --onitama-text-secondary: #555;
+  --onitama-accent: #2563eb;
+  --onitama-accent-rgb: 37, 99, 235;
+  --onitama-btn-text: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -22,20 +28,7 @@
   --color-accent: #3b82f6;
   --color-accent-hover: #60a5fa;
   --nav-brand-bg: #252525;
-}
 
-/* Onitama game theme (inherits from site) */
-:root,
-[data-theme="light"] {
-  --onitama-cell-bg: #f0f0f0;
-  --onitama-card-bg: #e8e8e8;
-  --onitama-text-secondary: #555;
-  --onitama-accent: #2563eb;
-  --onitama-accent-rgb: 37, 99, 235;
-  --onitama-btn-text: #ffffff;
-}
-
-[data-theme="dark"] {
   --onitama-cell-bg: #2a2a2a;
   --onitama-card-bg: #1f1f1f;
   --onitama-text-secondary: #999;
@@ -44,7 +37,6 @@
   --onitama-btn-text: #ffffff;
 }
 
-/* Tailwind theme extensions - map to our CSS variables for theme-aware utilities */
 @theme inline {
   --color-theme-bg: var(--color-bg);
   --color-theme-surface: var(--color-surface);
@@ -56,7 +48,6 @@
   --color-theme-nav-brand: var(--nav-brand-bg);
 }
 
-/* Base styles */
 @layer base {
   * {
     box-sizing: border-box;
@@ -68,6 +59,7 @@
     background: var(--color-bg);
     color: var(--color-text);
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   #root {
@@ -83,35 +75,77 @@
     text-decoration: underline;
   }
 
-  /* Project card hover shadow in dark theme */
   [data-theme="dark"] .project-card:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
-
 }
 
-/* CV page responsive header height */
+.home-banner {
+  font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-accent) 12%, var(--color-bg)) 100%);
+  border: 1px solid var(--color-border);
+}
+
+.home-banner-name span + span {
+  margin-top: 0.25em;
+}
+
+.home-banner-btn {
+  background: var(--color-accent);
+  color: white;
+  box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+.home-banner-btn:hover {
+  background: var(--color-accent-hover);
+  color: white;
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.home-banner-btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  font-weight: 600;
+}
+.home-banner-btn-secondary:hover {
+  background: var(--color-border);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 .cv-page {
   --cv-header-height: clamp(320px, 45vh, 550px);
 }
 
-/* Banner and competences stick; main content scrolls underneath (pure CSS) */
 .cv-page .cv-competences-aside {
   position: -webkit-sticky;
   position: sticky;
 }
+
 @media (max-width: 768px) {
+  html.cv-mobile-snap {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: var(--cv-header-height, 260px);
+  }
+
   .cv-page {
     --cv-header-height: clamp(260px, 45vh, 420px);
   }
+
+  .cv-competences-aside {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+  }
 }
 
-/* CV card hover animation - explicit CSS to ensure smooth 1.5s transition (overrides Tailwind's 150ms default) */
 .cv-card {
   transition-property: border-color, box-shadow, transform !important;
   transition-duration: 1.5s !important;
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .cv-card {
     transition-duration: 0.01ms !important;

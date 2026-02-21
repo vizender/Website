@@ -26,10 +26,9 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(getStoredTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() => {
-    if (theme === 'system') return getSystemTheme();
-    return theme;
-  });
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() =>
+    theme === 'system' ? getSystemTheme() : theme,
+  );
 
   useEffect(() => {
     const effective = theme === 'system' ? getSystemTheme() : theme;
@@ -50,12 +49,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener('change', handler);
   }, [theme]);
 
-  const setThemeValue = (value: Theme) => {
-    setTheme(value);
-  };
-
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme: setThemeValue }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
