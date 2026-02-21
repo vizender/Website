@@ -8,7 +8,7 @@
   padding-right: 2rem;
 }
 
-/* En-tête sticky : bannière + boutons PDF */
+/* En-tête sticky : bannière */
 .cv-sticky-header {
   position: sticky;
   top: 0;
@@ -38,7 +38,7 @@
 .cv-sticky-sidebar {
   flex: 0 0 220px;
   position: sticky;
-  top: var(--cv-header-height);
+  top: calc(var(--cv-header-height) + 1rem); /* sous la bannière + padding */
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -438,6 +438,7 @@
     margin-left: 0;
   }
 
+  /* Compétences dans le header : horizontales, max 2 lignes */
   /* Compétences sticky sous la bannière, horizontales, max 2 lignes */
   .cv-main-row {
     flex-direction: column;
@@ -448,7 +449,7 @@
   .cv-sticky-sidebar {
     flex: 0 0 auto;
     position: sticky;
-    top: var(--cv-header-height);
+    top: calc(var(--cv-header-height) + 0.75rem);
     order: -1;
     z-index: 5;
     background: var(--color-bg);
@@ -471,7 +472,7 @@
     gap: 0.5rem;
     max-height: 3.5rem;
     overflow: hidden;
-    padding-left: 0.25rem; /* évite que le fond des compétences à gauche soit coupé */
+    padding-left: 0.25rem;
   }
 
   .cv-skill {
