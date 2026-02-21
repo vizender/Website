@@ -1,7 +1,6 @@
-* {
-  box-sizing: border-box;
-}
+@import "tailwindcss";
 
+/* Theme variables - set by ThemeContext via data-theme attribute */
 :root,
 [data-theme="light"] {
   --color-bg: #ffffff;
@@ -45,23 +44,76 @@
   --onitama-btn-text: #ffffff;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
-  min-height: 100vh;
+/* Tailwind theme extensions - map to our CSS variables for theme-aware utilities */
+@theme inline {
+  --color-theme-bg: var(--color-bg);
+  --color-theme-surface: var(--color-surface);
+  --color-theme-border: var(--color-border);
+  --color-theme-text: var(--color-text);
+  --color-theme-text-secondary: var(--color-text-secondary);
+  --color-theme-accent: var(--color-accent);
+  --color-theme-accent-hover: var(--color-accent-hover);
+  --color-theme-nav-brand: var(--nav-brand-bg);
 }
 
-#root {
-  min-height: 100vh;
+/* Base styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Project card hover shadow in dark theme */
+  [data-theme="dark"] .project-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
 }
 
-a {
-  color: var(--color-accent);
-  text-decoration: none;
+/* CV page responsive header height */
+.cv-page {
+  --cv-header-height: clamp(320px, 45vh, 550px);
 }
 
-a:hover {
-  text-decoration: underline;
+/* Banner and competences stick; main content scrolls underneath (pure CSS) */
+.cv-page .cv-competences-aside {
+  position: -webkit-sticky;
+  position: sticky;
+}
+@media (max-width: 768px) {
+  .cv-page {
+    --cv-header-height: clamp(260px, 45vh, 420px);
+  }
+}
+
+/* CV card hover animation - explicit CSS to ensure smooth 1.5s transition (overrides Tailwind's 150ms default) */
+.cv-card {
+  transition-property: border-color, box-shadow, transform !important;
+  transition-duration: 1.5s !important;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv-card {
+    transition-duration: 0.01ms !important;
+  }
 }
