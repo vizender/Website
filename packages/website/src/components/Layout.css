@@ -157,6 +157,7 @@
 
 .main {
   flex: 1;
+  min-height: fit-content;
   padding: 2rem;
 }
 

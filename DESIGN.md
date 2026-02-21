@@ -156,8 +156,11 @@ Document de référence pour préparer les projets à intégrer au site personne
 
 ### CV
 
-- PDF français : `/cv/CV-2025.pdf`
-- Page CV : lien de téléchargement ou ouverture dans un nouvel onglet
+- **Bannière** : image en haut avec overlay et nom
+- **Boutons** : « Télécharger le PDF » + « Ouvrir le PDF » (nouvel onglet)
+- **Contenu dynamique** : expériences, projets, contacts (données dans `cvData.ts`)
+- **Sidebar** : compétences affichées à droite ; mise en évidence (gras, couleur accent) au scroll selon l’expérience/projet visible
+- **Thème** : compatible clair/sombre via variables CSS
 
 ---
 
