@@ -112,8 +112,8 @@ export const cvData = {
       value: 'linkedin.com/in/victor-le-gall',
       href: 'https://linkedin.com/in/victor-le-gall',
     },
-    { label: 'Localisation', value: 'Cachan, France' },
-    { label: 'Permis', value: 'Permis B — véhiculé' },
+    { label: 'Localisation', value: 'Vélizy-Villacoublay, France' },
+    { label: 'Permis', value: 'Permis B' },
   ] as Contact[],
 };
 
