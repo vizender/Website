@@ -65,6 +65,7 @@
   position: relative;
   width: 100%;
   height: var(--cv-header-height);
+  min-height: 200px;
   overflow: hidden;
   border-radius: 12px;
 }
@@ -74,6 +75,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  transform: translateZ(0); /* force layer GPU pour éviter bug de rendu au resize */
 }
 
 .cv-banner-overlay {

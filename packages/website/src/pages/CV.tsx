@@ -8,10 +8,28 @@ export function CV() {
   const [activeSkills, setActiveSkills] = useState<Set<string>>(new Set());
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [hoveredCardSkills, setHoveredCardSkills] = useState<Set<string>>(new Set());
+  const [, setResizeKey] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
 
   const allSkills = getAllSkills();
+
+  /* Force re-render au resize pour éviter le bug de rendu noir de la bannière */
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    const handler = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => setResizeKey((k) => k + 1), 100);
+    };
+    const mq = window.matchMedia('(max-width: 768px)');
+    mq.addEventListener('change', handler);
+    window.addEventListener('resize', handler);
+    return () => {
+      clearTimeout(timeoutId);
+      mq.removeEventListener('change', handler);
+      window.removeEventListener('resize', handler);
+    };
+  }, []);
 
   /* Sur mobile : prioriser les compétences highlightées (visibles en premier) */
   const sortedSkills = [...allSkills].sort((a, b) => {
