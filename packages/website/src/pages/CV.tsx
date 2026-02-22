@@ -8,13 +8,17 @@ import { useMediaQuery } from '../hooks/useMediaQuery';
 import { TimelineCard } from '../components/cv/TimelineCard';
 
 const PDF_URL = '/cv/CV-2025.pdf';
-const BANNER_SCROLL_THRESHOLD = 80;
+const BANNER_SCROLL_ENTER_THRESHOLD = 0;
+const BANNER_SCROLL_EXIT_THRESHOLD = 0;
 const BANNER_COMPACT_HEIGHT = 240;
 
 export function CV() {
-  const isBannerCompact = useScrollCompact(BANNER_SCROLL_THRESHOLD);
+  const isBannerCompact = useScrollCompact({
+    enter: BANNER_SCROLL_ENTER_THRESHOLD,
+    exit: BANNER_SCROLL_EXIT_THRESHOLD,
+  });
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const { containerRef, activeSkills } = useIntersectionHighlight();
+  const { containerRef } = useIntersectionHighlight();
   const centeredSkills = useCenteredCard(containerRef, !isDesktop);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [hoveredCardSkills, setHoveredCardSkills] = useState<Set<string>>(new Set());
@@ -59,7 +63,7 @@ export function CV() {
 
   return (
     <div
-      className="cv-page max-w-none -mx-4 md:-mx-8 w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] px-4 md:px-8 snap-start"
+      className="cv-page max-w-none -mx-4 md:-mx-8 w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] px-4 md:px-8"
       style={
         isBannerCompact
           ? ({ '--cv-header-height': `${BANNER_COMPACT_HEIGHT}px` } as React.CSSProperties)
@@ -72,6 +76,7 @@ export function CV() {
           style={{
             height: isBannerCompact ? BANNER_COMPACT_HEIGHT : 'var(--cv-header-height)',
             minHeight: isBannerCompact ? BANNER_COMPACT_HEIGHT : 200,
+            overflowAnchor: 'none',
           }}
         >
           <img
@@ -119,9 +124,9 @@ export function CV() {
       </header>
 
       <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-start mt-4 md:mt-8">
-        <aside className="cv-competences-aside shrink-0 w-full md:min-w-[320px] md:max-w-[420px] sticky top-[var(--cv-header-height)] md:top-[calc(var(--cv-header-height)+1rem)] flex flex-col gap-4 order-[-1] md:order-none z-10 self-stretch md:self-start px-4 md:px-0 pt-4 md:pt-0 pb-4 md:pb-0 bg-theme-bg">
-          <div className="flex flex-col gap-2 md:gap-4 p-3 md:p-5 bg-theme-surface border border-theme-border rounded-xl md:min-w-[320px] md:max-w-[420px]">
-            <h3 className="m-0 md:mb-4 text-sm font-semibold text-theme-text-secondary uppercase tracking-[0.05em]">
+        <aside className="cv-competences-aside shrink-0 w-full md:shrink-[2] md:basis-[220px] md:min-w-[12ch] md:max-w-[240px] sticky top-[var(--cv-header-height)] md:top-[calc(var(--cv-header-height)+1rem)] flex flex-col gap-4 order-[-1] md:order-none z-10 self-stretch md:self-start px-4 md:px-0 pt-4 md:pt-0 pb-4 md:pb-0 bg-theme-bg">
+          <div className="flex w-full flex-col gap-2 md:gap-4 p-3 md:p-5 bg-theme-surface border border-theme-border rounded-xl">
+            <h3 className="m-0 md:mb-4 text-sm font-semibold text-theme-text-secondary uppercase tracking-[0.05em] whitespace-nowrap">
               Compétences
             </h3>
             <ul className="list-none m-0 p-0 flex flex-wrap gap-1.5 md:flex-row md:flex-wrap md:items-start pl-1 md:pl-0">
