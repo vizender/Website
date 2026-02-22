@@ -42,13 +42,6 @@ export function CV() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isDesktop) {
-      document.documentElement.classList.add('cv-mobile-snap');
-      return () => document.documentElement.classList.remove('cv-mobile-snap');
-    }
-  }, [isDesktop]);
-
   const sortedSkills = [...allSkills].sort((a, b) => {
     const aHighlighted = isDesktop
       ? hoveredSkill === a || hoveredCardSkills.has(a)
@@ -163,10 +156,7 @@ export function CV() {
             </h2>
             <div className="flex flex-col gap-2 md:gap-6">
               {getTimelineEntries().map((entry) => (
-                <div
-                  key={entry.data.id}
-                  className="snap-center"
-                >
+                <div key={entry.data.id}>
                   <TimelineCard
                 entry={entry}
                   isHighlighted={
@@ -183,7 +173,7 @@ onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
             </div>
           </section>
 
-          <section className="flex flex-col gap-6 snap-center min-h-[40vh] md:min-h-0">
+          <section className="flex flex-col gap-6 min-h-[40vh] md:min-h-0">
             <h2 className="m-0 mb-1 text-xl font-semibold text-theme-text pb-2 border-b-2 border-theme-accent">
               Études et diplômes
             </h2>
@@ -197,7 +187,7 @@ onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
             </div>
           </section>
 
-          <section className="flex flex-col gap-6 mb-8 snap-center min-h-[40vh] md:min-h-0">
+          <section className="flex flex-col gap-6 mb-8 min-h-[40vh] md:min-h-0">
             <h2 className="m-0 mb-1 text-xl font-semibold text-theme-text pb-2 border-b-2 border-theme-accent">
               Contact
             </h2>
