@@ -100,7 +100,7 @@ export function CV() {
             </svg>
             Home
           </Link>
-          <div className="absolute bottom-4 left-4 md:bottom-6 md:left-8 flex gap-4 flex-wrap z-[2]">
+          <div className="absolute bottom-4 left-4 md:bottom-6 md:left-8 flex flex-col md:flex-row items-start gap-2 md:gap-4 z-[2]">
             <a
               href={PDF_URL}
               download="CV-Victor-Le-Gall-2025.pdf"
