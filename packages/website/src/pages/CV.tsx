@@ -25,19 +25,32 @@ export function CV() {
   const allSkills = useMemo(() => getAllSkills(), []);
   const timelineEntries = useMemo(() => getTimelineEntries(), []);
 
+  /**
+   * Mobile: skills tied to scroll focus or a hovered card go first.
+   * Desktop: card hover reorders so those skills jump to the front; competence hover keeps alphabetical
+   * order so chips don’t move under the cursor (avoids hover flicker).
+   */
   const sortedSkills = useMemo(() => {
+    if (isDesktop && hoveredSkill !== null) {
+      return allSkills;
+    }
+
     return [...allSkills].sort((a, b) => {
       const aHighlighted = isDesktop
-        ? hoveredSkill === a || hoveredCardSkills.has(a)
+        ? hoveredCardSkills.has(a)
         : focusedSkills.has(a) || hoveredCardSkills.has(a);
       const bHighlighted = isDesktop
-        ? hoveredSkill === b || hoveredCardSkills.has(b)
+        ? hoveredCardSkills.has(b)
         : focusedSkills.has(b) || hoveredCardSkills.has(b);
       if (aHighlighted && !bHighlighted) return -1;
       if (!aHighlighted && bHighlighted) return 1;
       return 0;
     });
   }, [allSkills, isDesktop, hoveredSkill, hoveredCardSkills, focusedSkills]);
+
+  /** Slightly tighter chip spacing on phone while something is focused (helps limit height growth when chips are larger). */
+  const mobileSkillsTightLayout =
+    !isDesktop && (focusedEntryId !== null || hoveredCardSkills.size > 0);
 
   const skillHighlighted = (skill: string) =>
     isDesktop
@@ -117,16 +130,20 @@ export function CV() {
             <h3 className="m-0 md:mb-4 text-sm font-semibold text-theme-text-secondary uppercase tracking-[0.05em] whitespace-nowrap">
               Compétences
             </h3>
-            <ul className="list-none m-0 p-0 flex flex-wrap gap-1.5 md:flex-row md:flex-wrap md:items-start pl-1 md:pl-0">
+            <ul
+              className={`list-none m-0 p-0 flex flex-wrap md:flex-row md:flex-wrap md:items-start pl-1 md:pl-0 ${
+                mobileSkillsTightLayout ? 'gap-1.5' : 'gap-2.5'
+              } md:gap-2.5`}
+            >
               {sortedSkills.map((skill) => {
                 const highlighted = skillHighlighted(skill);
                 return (
                   <li
                     key={skill}
-                    className={`text-xs md:text-[0.9rem] cursor-pointer rounded transition-[color,font-weight,background] duration-200 hover:text-theme-accent py-1 px-2 md:py-1 md:px-1 md:-mx-1 md:rounded md:whitespace-nowrap md:w-fit ${
+                    className={`text-xs md:text-[0.9rem] cursor-pointer rounded py-1 px-2 md:py-1 md:px-1 md:-mx-1 md:rounded md:whitespace-nowrap md:w-fit md:inline-flex md:items-center font-medium transition-[color,background-color] duration-200 md:origin-center md:transition-[color,background-color,transform] md:duration-500 md:ease-out hover:text-theme-accent ${
                       highlighted
-                        ? 'text-theme-accent font-semibold bg-theme-accent text-white md:bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] md:text-theme-accent'
-                        : 'bg-theme-border md:bg-transparent text-theme-text-secondary'
+                        ? 'bg-theme-accent text-white md:scale-105 md:font-semibold md:bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] md:text-theme-accent'
+                        : 'bg-theme-border text-theme-text-secondary md:scale-100 md:bg-transparent md:font-normal'
                     }`}
                     onMouseEnter={() => setHoveredSkill(skill)}
                     onMouseLeave={() => setHoveredSkill(null)}

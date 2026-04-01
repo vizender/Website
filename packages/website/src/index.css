@@ -136,13 +136,29 @@
 }
 
 .cv-card {
+  transform: scale(1);
+  transform-origin: center;
   transition-property: border-color, box-shadow, transform !important;
-  transition-duration: 1.5s !important;
-  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  /* Border/shadow stay slow; hover grow is obvious and animates over 0.5s. */
+  transition-duration: 1.5s, 1.5s, 0.5s !important;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1), cubic-bezier(0.25, 0.1, 0.25, 1),
+    cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@media (min-width: 768px) {
+  .cv-card:hover {
+    transform: scale(1.05);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .cv-card {
     transition-duration: 0.01ms !important;
+  }
+
+  @media (min-width: 768px) {
+    .cv-card:hover {
+      transform: scale(1);
+    }
   }
 }

@@ -15,7 +15,7 @@ export function TimelineCard({ entry, isHighlighted, onMouseEnter, onMouseLeave 
 
   return (
     <div
-      className={`cv-card p-5 bg-theme-surface border rounded-xl hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] origin-center ${borderClass}`}
+      className={`cv-card p-5 bg-theme-surface border rounded-xl md:hover:shadow-[0_10px_28px_rgba(0,0,0,0.12)] dark:md:hover:shadow-[0_10px_28px_rgba(0,0,0,0.4)] ${borderClass}`}
       data-cv-entry-id={data.id}
       data-skills={data.skills.length ? data.skills.join(', ') : undefined}
       onMouseEnter={onMouseEnter}
