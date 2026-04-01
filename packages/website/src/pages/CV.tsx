@@ -140,7 +140,7 @@ export function CV() {
                 return (
                   <li
                     key={skill}
-                    className={`text-xs md:text-[0.9rem] cursor-pointer rounded py-1 px-2 md:py-1 md:px-1 md:-mx-1 md:rounded md:whitespace-nowrap md:w-fit md:inline-flex md:items-center font-medium transition-[color,background-color] duration-200 md:origin-center md:transition-[color,background-color,transform] md:duration-500 md:ease-out hover:text-theme-accent ${
+                    className={`text-xs md:text-[0.9rem] cursor-pointer rounded py-1 px-2 md:py-1 md:px-1 md:-mx-1 md:rounded md:whitespace-nowrap md:w-fit md:inline-flex md:items-center font-medium transition-[color,background-color] duration-200 md:origin-center md:transition-[color,background-color,transform] md:duration-400 md:ease-out hover:text-theme-accent ${
                       highlighted
                         ? 'bg-theme-accent text-white md:scale-105 md:font-semibold md:bg-[color-mix(in_srgb,var(--color-accent)_12%,transparent)] md:text-theme-accent'
                         : 'bg-theme-border text-theme-text-secondary md:scale-100 md:bg-transparent md:font-normal'
