@@ -145,9 +145,14 @@
     cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* Grow toward the timeline column; smaller scale + left origin avoids overlapping the competences aside on wide screens. */
 @media (min-width: 768px) {
+  .cv-card {
+    transform-origin: left center;
+  }
+
   .cv-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
 }
 
