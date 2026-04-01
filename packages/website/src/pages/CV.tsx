@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { cvData, getAllSkills, getTimelineEntries } from '../data/cvData';
+import { cvData, getAllSkills, getTimelineEntries, type TimelineEntry } from '../data/cvData';
 import { useScrollCompact } from '../hooks/useScrollCompact';
 import { useCenteredCard } from '../hooks/useCenteredCard';
-import { useIntersectionHighlight } from '../hooks/useIntersectionHighlight';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { TimelineCard } from '../components/cv/TimelineCard';
 
@@ -18,48 +17,44 @@ export function CV() {
     exit: BANNER_SCROLL_EXIT_THRESHOLD,
   });
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const { containerRef } = useIntersectionHighlight();
-  const centeredSkills = useCenteredCard(containerRef, !isDesktop);
+  const timelineContainerRef = useRef<HTMLDivElement>(null);
+  const { focusedSkills, focusedEntryId } = useCenteredCard(timelineContainerRef, !isDesktop);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [hoveredCardSkills, setHoveredCardSkills] = useState<Set<string>>(new Set());
-  const [, setResizeKey] = useState(0);
 
-  const allSkills = getAllSkills();
+  const allSkills = useMemo(() => getAllSkills(), []);
+  const timelineEntries = useMemo(() => getTimelineEntries(), []);
 
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    const handler = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => setResizeKey((k) => k + 1), 100);
-    };
-    const mq = window.matchMedia('(max-width: 768px)');
-    mq.addEventListener('change', handler);
-    window.addEventListener('resize', handler);
-    return () => {
-      clearTimeout(timeoutId);
-      mq.removeEventListener('change', handler);
-      window.removeEventListener('resize', handler);
-    };
-  }, []);
+  const sortedSkills = useMemo(() => {
+    return [...allSkills].sort((a, b) => {
+      const aHighlighted = isDesktop
+        ? hoveredSkill === a || hoveredCardSkills.has(a)
+        : focusedSkills.has(a) || hoveredCardSkills.has(a);
+      const bHighlighted = isDesktop
+        ? hoveredSkill === b || hoveredCardSkills.has(b)
+        : focusedSkills.has(b) || hoveredCardSkills.has(b);
+      if (aHighlighted && !bHighlighted) return -1;
+      if (!aHighlighted && bHighlighted) return 1;
+      return 0;
+    });
+  }, [allSkills, isDesktop, hoveredSkill, hoveredCardSkills, focusedSkills]);
 
-  const sortedSkills = [...allSkills].sort((a, b) => {
-    const aHighlighted = isDesktop
-      ? hoveredSkill === a || hoveredCardSkills.has(a)
-      : centeredSkills.has(a) || hoveredCardSkills.has(a);
-    const bHighlighted = isDesktop
-      ? hoveredSkill === b || hoveredCardSkills.has(b)
-      : centeredSkills.has(b) || hoveredCardSkills.has(b);
-    if (aHighlighted && !bHighlighted) return -1;
-    if (!aHighlighted && bHighlighted) return 1;
-    return 0;
-  });
+  const skillHighlighted = (skill: string) =>
+    isDesktop
+      ? hoveredSkill === skill || hoveredCardSkills.has(skill)
+      : focusedSkills.has(skill) || hoveredCardSkills.has(skill);
+
+  const entryHighlighted = (entry: TimelineEntry) =>
+    isDesktop
+      ? !!hoveredSkill && entry.data.skills.includes(hoveredSkill)
+      : focusedEntryId === entry.data.id;
 
   return (
     <div
       className="cv-page max-w-none -mx-4 md:-mx-8 w-[calc(100%+2rem)] md:w-[calc(100%+4rem)] px-4 md:px-8"
       style={
         isBannerCompact
-          ? ({ '--cv-header-height': `${BANNER_COMPACT_HEIGHT}px` } as React.CSSProperties)
+          ? ({ '--cv-header-height': `${BANNER_COMPACT_HEIGHT}px` } as CSSProperties)
           : undefined
       }
     >
@@ -124,9 +119,7 @@ export function CV() {
             </h3>
             <ul className="list-none m-0 p-0 flex flex-wrap gap-1.5 md:flex-row md:flex-wrap md:items-start pl-1 md:pl-0">
               {sortedSkills.map((skill) => {
-                const highlighted = isDesktop
-                  ? hoveredSkill === skill || hoveredCardSkills.has(skill)
-                  : centeredSkills.has(skill) || hoveredCardSkills.has(skill);
+                const highlighted = skillHighlighted(skill);
                 return (
                   <li
                     key={skill}
@@ -148,24 +141,19 @@ export function CV() {
 
         <div
           className="flex-1 flex flex-col gap-6 md:gap-8 min-w-0 bg-theme-bg relative z-0"
-          ref={containerRef}
+          ref={timelineContainerRef}
         >
           <section className="flex flex-col gap-6">
             <h2 className="m-0 mb-1 text-xl font-semibold text-theme-text pb-2 border-b-2 border-theme-accent">
               Expériences et projets
             </h2>
             <div className="flex flex-col gap-2 md:gap-6">
-              {getTimelineEntries().map((entry) => (
+              {timelineEntries.map((entry) => (
                 <div key={entry.data.id}>
                   <TimelineCard
-                entry={entry}
-                  isHighlighted={
-                    isDesktop
-                      ? !!hoveredSkill && entry.data.skills.includes(hoveredSkill)
-                      : entry.data.skills.length > 0 &&
-                        entry.data.skills.every((s) => centeredSkills.has(s))
-                  }
-onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
+                    entry={entry}
+                    isHighlighted={entryHighlighted(entry)}
+                    onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
                     onMouseLeave={() => setHoveredCardSkills(new Set())}
                   />
                 </div>
@@ -173,7 +161,7 @@ onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
             </div>
           </section>
 
-          <section className="flex flex-col gap-6 min-h-[40vh] md:min-h-0">
+          <section className="flex flex-col gap-6">
             <h2 className="m-0 mb-1 text-xl font-semibold text-theme-text pb-2 border-b-2 border-theme-accent">
               Études et diplômes
             </h2>
@@ -187,7 +175,7 @@ onMouseEnter={() => setHoveredCardSkills(new Set(entry.data.skills))}
             </div>
           </section>
 
-          <section className="flex flex-col gap-6 mb-8 min-h-[40vh] md:min-h-0">
+          <section className="flex flex-col gap-6 mb-8">
             <h2 className="m-0 mb-1 text-xl font-semibold text-theme-text pb-2 border-b-2 border-theme-accent">
               Contact
             </h2>
