@@ -1,16 +1,22 @@
 import { Link } from 'react-router-dom';
 import type { Project } from '../data/projects';
 
+const cardClassName =
+  'project-card group flex flex-col bg-theme-surface border border-theme-border rounded-xl overflow-hidden no-underline text-inherit origin-center transition-[border-color,box-shadow,transform,background] duration-200 hover:border-[var(--card-accent,var(--color-accent))] hover:shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-[1.02] hover:bg-theme-bg';
+
 export function ProjectCard({ project }: { project: Project }) {
-  return (
-    <Link
-      to={project.href}
-      className="project-card group flex flex-col bg-theme-surface border border-theme-border rounded-xl overflow-hidden no-underline text-inherit origin-center transition-[border-color,box-shadow,transform,background] duration-200 hover:border-[var(--card-accent,var(--color-accent))] hover:shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-[1.02] hover:bg-theme-bg"
-      style={{ '--card-accent': project.accentColor ?? 'var(--color-accent)' } as React.CSSProperties}
-    >
+  const style = {
+    '--card-accent': project.accentColor ?? 'var(--color-accent)',
+  } as React.CSSProperties;
+
+  const content = (
       <div className="aspect-[16/10] bg-theme-border overflow-hidden">
         {project.previewImage ? (
-          <img src={project.previewImage} alt="" className="w-full h-full object-cover" />
+          <img
+            src={project.previewImage}
+            alt={`${project.title} preview`}
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-theme-border to-theme-surface text-theme-text-secondary text-base">
             <span>{project.title}</span>
@@ -29,6 +35,19 @@ export function ProjectCard({ project }: { project: Project }) {
           View project →
         </span>
       </div>
+  );
+
+  if (project.external) {
+    return (
+      <a href={project.href} className={cardClassName} style={style}>
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={project.href} className={cardClassName} style={style}>
+      {content}
     </Link>
   );
 }
