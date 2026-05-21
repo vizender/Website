@@ -10,6 +10,7 @@ export function ProjectCard({ project }: { project: Project }) {
   } as React.CSSProperties;
 
   const content = (
+    <>
       <div className="aspect-[16/10] bg-theme-border overflow-hidden">
         {project.previewImage ? (
           <img
@@ -35,6 +36,7 @@ export function ProjectCard({ project }: { project: Project }) {
           View project →
         </span>
       </div>
+    </>
   );
 
   if (project.external) {
