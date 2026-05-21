@@ -2,5 +2,19 @@
   "buildCommand": "npm run build",
   "outputDirectory": "packages/website/dist",
   "framework": "vite",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/satisfactory-remodeller",
+      "destination": "https://satisfactory-remodeller.vercel.app/satisfactory-remodeller"
+    },
+    {
+      "source": "/satisfactory-remodeller/",
+      "destination": "https://satisfactory-remodeller.vercel.app/satisfactory-remodeller/"
+    },
+    {
+      "source": "/satisfactory-remodeller/:path*",
+      "destination": "https://satisfactory-remodeller.vercel.app/satisfactory-remodeller/:path*"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
